@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<meta charset="UTF-8">
+<title>SongQueue</title>
+<!--<link rel="stylesheet" href="{% static 'css/supbus.css' %}">-->
+<link rel="stylesheet" href="{% static 'css/supbus2.css' %}">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<style>
+
+</style>
+<script>
+    function init(msg){
+        if(msg == 'nochange'){
+            UName = getUName();
+            Pwd = getPW();
+            if(UName && Pwd){
+                document.getElementById("UName").value = UName;
+                document.getElementById("Pwd").value = Pwd;
+                document.getElementById("btnExistingUser").click();
+            }
+        }
+    }
+    function saveCredNew(){
+        if(document.getElementById('UName').value == '' || document.getElementById('Pwd').value == ''){
+            alert('Enter last name and password');
+            return;
+        }
+        if (confirm("Save password on this device?")) {
+            saveCred();
+        }
+        document.getElementById("btnNewUser").click();
+    }
+    function saveCredExist(){
+        if(document.getElementById('UName').value == '' || document.getElementById('Pwd').value == ''){
+            alert('Enter user name and password');
+            return;
+        }
+        if (confirm("Save password on this device?")) {
+            saveCred();
+        }
+        document.getElementById("btnExistingUser").click();
+    }
+    function saveCred(){
+        UName = document.getElementById("UName").value.trim();
+        Pwd = document.getElementById("Pwd").value.trim();
+        if(UName && Pwd){
+            setCookie("UName", UName, 100);
+            setCookie("Pwd", Pwd, 100);
+        }  
+    }
+    function getUName(){
+        return getCookie("UName");
+    }
+    function getPW(){
+        return getCookie("Pwd");
+    }
+    function setCookie(cname, cvalue, exdays) {
+      const d = new Date();
+      d.setTime(d.getTime() + (exdays*24*60*60*1000));
+      let expires = "expires="+ d.toUTCString();
+      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+    function getCookie(cname) {
+      let name = cname + "=";
+      let decodedCookie = decodeURIComponent(document.cookie);
+      let ca = decodedCookie.split(';');
+      for(let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+  return "";
+}   
+</script>
+<body onload="init('{{ msg }}')">
+<h1>Login</h1>
+<form action="{% url 'index' %}" method="post">
+{% csrf_token %}
+<div id="container">
+    <label>Last name</label>
+    <p style="margin-top:0px;margin-bottom:8px;"><input name="UName" id="UName" type="text" autofocus></p>
+    <label>Password</label>
+    <p style="margin-top:0px;"><input name="Pwd" id="Pwd" type="text"></p>
+    <input type="button" value="New" onclick="saveCredNew()">
+    <input value="Existing" type="button" onclick="saveCredExist()">
+</div>
+<input value="New user" type="submit" id="btnNewUser" name="btnNewUser" style="visibility:hidden"></input>
+<input value="Existing user" type="submit" id="btnExistingUser" name="btnExistingUser" style="visibility:hidden"></input>
+</form> 
+</body>
+</html>

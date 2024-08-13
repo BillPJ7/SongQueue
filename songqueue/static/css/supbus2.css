@@ -1,0 +1,63 @@
+body {
+  background-color: black;
+  padding: 8px 16px 8px 16px;
+  font-family:Verdana,sans-serif;font-size:15px;line-height:1.5;
+}
+h1 {
+  background-color: black;
+  color: white;
+  font-family:"Segoe UI",Arial,sans-serif;font-weight:400;margin:10px 0;
+  font-size:36p;
+}
+form {
+  color: black;
+}
+label {
+    color: white;
+    font-family:Arial,sans-serif;
+}
+input, button {
+  border-style: solid;
+  border-color: white;
+  border-width: 1px;
+  background-color: black;
+  color: white;
+  padding:8px 16px 8px 16px;
+}
+input[type=checkbox]:checked {
+  background-color: #a77e2d !important;
+  color: #ffffff !important;
+}
+select {
+    background-color: black;
+    color: white;
+    padding:8px 16px 8px 16px;
+}
+textarea {
+    background-color: black;
+    color: white;
+    padding:8px 16px 8px 16px;
+}
+#container {
+    background-color: black;
+    border-style: solid;
+    border-color: white;
+    border-width: 1px;
+    padding: 8px 16px 8px 16px;
+    width: 200px;
+}
+#container2 {
+    background-color: black;
+    border-style: solid;
+    border-color: white;
+    border-width: 1px;
+    padding: 8px 16px 16px 16px;
+    margin: 0px 0px 0px 0px;
+    width: 300px;
+}
+#LName {
+    width: 165px;
+}
+#Pwd {
+    width: 165px;
+}

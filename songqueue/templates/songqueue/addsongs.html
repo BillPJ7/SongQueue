@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <title>SongQueue</title>
+        <link rel="stylesheet" href="{% static 'css/supbus2.css' %}"
+    </head>
+    <form action="{% url 'addsongs' %}" method="post">
+    {% csrf_token %}
+<script>
+function BuildSongs(){
+    let x = document.getElementById('Songs').value;
+    let songs = x.split('\n');
+    document.getElementById('ReturnInfo').value = JSON.stringify(songs);
+    document.getElementById("btnSubmit").click();
+}
+</script>
+<body>
+    <h1>Add songs</h1>
+    <div id="container2">
+<textarea id="Songs" name="Songs" rows="20" cols="30"></textarea>
+</form> 
+</body>
+    <input value="Submit" type="button" onclick="BuildSongs()">
+    <input value="Submit" type="submit" name="btnSubmit" id="btnSubmit" style="visibility:hidden">
+    <input value='{{ artistid }}' name="ArtistID" id="ArtistID" style="visibility:hidden">
+    <input name="ReturnInfo" id="ReturnInfo" style="visibility:hidden">
+</html>

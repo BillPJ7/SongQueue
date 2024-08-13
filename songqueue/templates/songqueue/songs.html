@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>SongQueue</title>
+    <link rel="stylesheet" href="{% static 'css/supbus2.css' %}"
+</head>
+<form action="{% url 'songs' %}" method="post">
+{% csrf_token %}
+<script>
+let s = null, name = '', mayDelete = null;
+function init(songs, artistid){
+   // alert(artistid);
+    document.getElementById("ArtistID").value = artistid;
+    s = JSON.parse(songs);
+    let dMain = getMain();
+    let main = document.getElementById("main");
+    main.appendChild(dMain);
+  //  for (let i = 0; i < s.length; i++) {
+      //  alert(s[i]);  
+}
+function getMain(){
+    let dMain = document.createElement("div");
+    dMain.id = "container2";
+    dMain.style.width = "330px";
+    let table = document.createElement('table');
+    let dSongs = getSongs();
+    let dButtons = getButtons();
+    table = row2(table, dSongs, dButtons)
+   // dMain.appendChild(dSongs);
+   // dMain.appendChild(dButtons);
+    dMain.appendChild(table);
+    return dMain;   
+}
+function getSongs(){
+    let dSongs = document.createElement("div");
+    dSongs.id = "dSongs";
+    let table = document.createElement('table');
+    for (let i = 0; i < s.length; i++) {
+        let e = document.createElement("label");
+        e.innerText = s[i].name;
+        if(s[i].color == 'r')
+            e.style.color='red';
+        if(s[i].color == 'g')
+            e.style.color='green';
+        e.addEventListener('click', function(event){
+            //alert(s[i]);
+           // name = s[i];
+            let b = document.getElementById('bDelete');
+            b.value = 'delete ' + s[i].name;
+            mayDelete = s[i].id;
+            b.disabled = false;
+            b.style.color='white';
+        });
+        table = row(table, e);
+    }
+    dSongs.appendChild(table);
+    return dSongs;
+}
+function getButtons(){
+    let dButtons = document.createElement("div");
+    let table = document.createElement('table');
+    let b = button("Next");
+    b.id = "bNext";
+    b.addEventListener('click', function(event){
+        document.getElementById('SubmitFunction').value = 'Next';
+        document.getElementById("btnSubmit").click();
+    });
+    table = row(table, b);
+    b = button("Add songs");
+    b.id = "bAdd";
+    b.addEventListener('click', function(event){
+        document.getElementById('SubmitFunction').value = 'Add';
+        document.getElementById("btnSubmit").click();
+    });
+    table = row(table, b);
+    b = button("Delete song");
+    b.id = "bDelete";
+    b.disabled=true;
+    b.style.color='grey';
+    b.addEventListener('click', function(event){
+        document.getElementById('Delete').value = mayDelete;
+        document.getElementById('SubmitFunction').value = 'Delete';
+        document.getElementById("btnSubmit").click();
+    });
+    table = row(table, b);
+  //  table = label(table, "Delete a song");
+   // let deleteBox = document.createElement("div");
+  //  deleteBox.id = "container2";
+  //  deleteBox.style.width = "100px";
+ //   let table2 = document.createElement('table');
+  //  deleteButton = button("Delete");
+ //   table2 = row(table2, deleteButton);
+ //   deleteBox.appendChild(table2);
+ //   table = row(table, deleteBox);
+    b = button("Change login");
+    b.id = "bChange";
+    b.addEventListener('click', function(event){
+        document.getElementById('SubmitFunction').value = 'Change';
+        document.getElementById("btnSubmit").click();
+    });
+    table = row(table, b);
+    dButtons.appendChild(table);
+    return dButtons;
+}
+function label(table, lText){
+    let l = document.createElement("label");
+    l.innerText = lText;
+    return row(table, l);
+}
+function button(bText){
+    let b = document.createElement('input');
+    b.type = "button";
+    b.value = bText;
+    return b;
+}
+function row(table, e){
+  //  alert('3');
+    let tr = document.createElement('tr');
+    let td = document.createElement('td');
+    td.appendChild(e);
+    tr.appendChild(td);
+    table.appendChild(tr);
+    return table;
+}
+function row2(table, e, f){
+    let tr = document.createElement('tr');
+    let td = document.createElement('td');
+    td.appendChild(e);
+    td.style.verticalAlign = "top"; 
+    td.style.width = '220px';
+    tr.appendChild(td);
+    td = document.createElement('td');
+    td.style.verticalAlign = "top"; 
+    td.appendChild(f);
+    tr.appendChild(td);
+    table.appendChild(tr);
+    return table;
+}
+</script>
+<body onload="init('{{ songs }}', '{{ artistid }}')">
+    <h1>Songs</h1>
+    <div name="main" id="main"></div>
+</body>
+<button type="submit" name="btnSubmit" id="btnSubmit" style="visibility:hidden"></button>
+<input name="ArtistID" id="ArtistID" style="visibility:hidden">
+<input name="Delete" id="Delete" style="visibility:hidden">
+<input name="SubmitFunction" id="SubmitFunction" style="visibility:hidden">
+</form>
+</html>
